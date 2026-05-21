@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DisasterShield AI</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    background:#0a0f1c;
+    color:white;
+    font-family:sans-serif;
+}
+.container {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    padding:20px;
+}
+.card {
+    background:#111827;
+    padding:25px;
+    border-radius:12px;
+}
+button {
+    background:#00c6ff;
+    border:none;
+    padding:10px 15px;
+    margin:5px 5px 10px 0;
+    border-radius:8px;
+    cursor:pointer;
+}
+input {
+    padding:12px;
+    margin:8px 0;
+    border-radius:6px;
+    border:none;
+    width:100%;
+}
+h1 {
+    padding-left:20px;
+}
+.divider {
+    text-align:center;
+    margin:15px 0;
+    color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<h1>⚡ DisasterShield AI</h1>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="card">
+<h2>🎯 Prediction Engine</h2>
+
+<!-- 📧 EMAIL -->
+<input id="emailInput" placeholder="Enter your email">
+
+<!-- 🔵 AUTO DETECT -->
+<button onclick="getLocation()">📍 Detect Location</button>
+<button onclick="analyzeAuto()">⚡ Analyze Current Location</button>
+
+<p id="locationText">📍 Location: Not detected</p>
+
+<div class="divider">──────── OR ────────</div>
+
+<!-- 🌍 MANUAL CITY -->
+<input id="cityInput" placeholder="Enter city (Tokyo)">
+<button onclick="analyzeCity()">🌍 Analyze City</button>
+
+<h2 id="result"></h2>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="card">
+<h2>🤖 Raksha Bot 🇮🇳</h2>
+
+<div id="messages"></div>
+
+<input id="userInput" placeholder="Ask something...">
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+</div>
+
+<script>
+
+let lat, lon;
+let chartInstance;
+
+// 📍 LOCATION
+function getLocation(){
+    navigator.geolocation.getCurrentPosition(
+        pos=>{
+            lat = pos.coords.latitude;
+            lon = pos.coords.longitude;
+
+            document.getElementById("locationText").innerHTML =
+            `📍 ${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+        },
+        ()=>{
+            alert("Allow location access ❌");
+        }
+    );
+}
+
+// ⚡ AUTO ANALYZE
+async function analyzeAuto(){
+
+    let email = document.getElementById("emailInput").value;
+
+    if(!email){
+        alert("Enter email first");
+        return;
+    }
+
+    if(!lat || !lon){
+        alert("Detect location first");
+        return;
+    }
+
+    let res = await fetch("/auto_predict",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            lat: lat,
+            lon: lon,
+            email: email
+        })
+    });
+
+    handleResponse(await res.json());
+}
+
+// 🌍 CITY ANALYZE
+async function analyzeCity(){
+
+    let email = document.getElementById("emailInput").value;
+    let city = document.getElementById("cityInput").value;
+
+    if(!email){
+        alert("Enter email first");
+        return;
+    }
+
+    if(!city){
+        alert("Enter city name");
+        return;
+    }
+
+    let res = await fetch("/auto_predict",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            city: city,
+            email: email
+        })
+    });
+
+    handleResponse(await res.json());
+}
+
+// 📊 RESPONSE HANDLER
+function handleResponse(data){
+
+    if(data.error){
+        result.innerHTML = "❌ " + data.error;
+        return;
+    }
+
+    locationText.innerHTML = `📍 ${data.location}`;
+    result.innerHTML = `⚠️ ${data.disaster} → ${data.alert}`;
+
+    if(chartInstance) chartInstance.destroy();
+
+    chartInstance = new Chart(document.getElementById("chart"),{
+        type:'bar',
+        data:{
+            labels:['Flood','Earthquake','Hurricane'],
+            datasets:[{
+                label:"Risk Comparison",
+                data:[
+                    data.flood,
+                    data.earthquake,
+                    data.hurricane
+                ],
+                backgroundColor:[
+                    '#00ff88',
+                    '#ffaa00',
+                    '#ff4444'
+                ],
+                borderRadius:10
+            }]
+        },
+        options:{
+            plugins:{
+                legend:{
+                    labels:{color:'white'}
+                }
+            },
+            scales:{
+                x:{ticks:{color:'white'}},
+                y:{
+                    ticks:{color:'white'},
+                    min:0,
+                    max:1
+                }
+            }
+        }
+    });
+}
+
+// 🤖 CHATBOT
+async function sendMessage(){
+    let msg = userInput.value;
+    if(!msg) return;
+
+    messages.innerHTML += `<p>👤 ${msg}</p>`;
+
+    let res = await fetch("/chat",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({message:msg})
+    });
+
+    let data = await res.json();
+
+    messages.innerHTML += `<p>🤖 ${data.reply}</p>`;
+
+    userInput.value = "";
+}
+
+</script>
+
+</body>
+</html>
