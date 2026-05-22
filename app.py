@@ -39,6 +39,7 @@ def send_email(receiver, msg):
 import os
 import gdown
 
+
 # Download flood model
 if not os.path.exists("flood_model.pkl"):
     gdown.download(
@@ -62,7 +63,16 @@ if not os.path.exists("hurricane_model.pkl"):
         "hurricane_model.pkl",
         quiet=False
     )
+files = {
+    "flood_model.pkl": "1VpvnSX-zTTXeGo3nJGRvuBfiwZgz1zLr",
+    "earthquake_model.pkl": "1HG56-XHT1cT2Jbq0t_IOKPwsWTGSX2hx",
+    "hurricane_model.pkl": "11hHAwbVOqQFAUAxYTU3S1p7k21d6Sad0"
+}
 
+for file_name, file_id in files.items():
+    if not os.path.exists(file_name):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, file_name, quiet=False)
 
 @app.route('/')
 def home():
