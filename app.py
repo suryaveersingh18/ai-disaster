@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template
 import requests
 import smtplib
 from email.mime.text import MIMEText
+import os
+import gdown
 
 API_KEY = "a9e95ba84964a501eb8772453c5cee76"
 app = Flask(__name__)
@@ -33,6 +35,34 @@ def send_email(receiver, msg):
 
     except Exception as e:
         print("❌ Email ERROR:", e)
+
+import os
+import gdown
+
+# Download flood model
+if not os.path.exists("flood_model.pkl"):
+    gdown.download(
+        "https://drive.google.com/uc?id=1QXemqLhuuYijR8Gj30goe3X6YSMKcFBK",
+        "flood_model.pkl",
+        quiet=False
+    )
+
+# Download earthquake model
+if not os.path.exists("earthquake_model.pkl"):
+    gdown.download(
+        "https://drive.google.com/uc?id=1QXemqLhuuYijR8Gj30goe3X6YSMKcFBK",
+        "earthquake_model.pkl",
+        quiet=False
+    )
+
+# Download hurricane model
+if not os.path.exists("hurricane_model.pkl"):
+    gdown.download(
+        "https://drive.google.com/uc?id=1QXemqLhuuYijR8Gj30goe3X6YSMKcFBK",
+        "hurricane_model.pkl",
+        quiet=False
+    )
+
 
 @app.route('/')
 def home():
