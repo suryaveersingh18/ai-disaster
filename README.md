@@ -1,47 +1,143 @@
-# AI Disaster Prediction System
+# 🌍 AI Disaster Prediction System
 
-An AI-powered disaster prediction and analysis system using Machine Learning and Deep Learning techniques to analyze disaster-related patterns and improve early warning systems.
+An AI-powered Disaster Prediction System that predicts natural disasters such as Floods, Earthquakes, and Hurricanes using Machine Learning models.
 
-## Features
-- Disaster prediction using ML models
-- Data visualization
-- Deep learning integration
-- Real-time analysis support
-- User-friendly interface
+---
 
-## Tech Stack
+# 🚀 Features
+
+- 🌊 Flood Prediction
+- 🌎 Earthquake Prediction
+- 🌪 Hurricane Prediction
+- 📊 Data Visualization
+- 🤖 Machine Learning Integration
+- 💻 Interactive User Interface
+- ⚡ Fast Predictions
+
+---
+
+# 🛠 Tech Stack
+
 - Python
-- Flask/Streamlit
-- TensorFlow
+- Flask
 - Scikit-learn
 - Pandas
 - NumPy
+- HTML
+- CSS
+- JavaScript
+- Joblib
 
-## Installation
+---
+
+# 📂 Project Structure
+
 ```bash
-git clone <repo-link>
-cd AI-Disaster-Prediction
+AI-Disaster-Prediction/
+│
+├── static/
+├── templates/
+├── app.py
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+# ⚙️ Installation & Setup
+
+## 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/suryaveersingh18/ai-disaster.git
+```
+
+## 2️⃣ Navigate to Project Folder
+
+```bash
+cd ai-disaster
+```
+
+## 3️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
-python app.py
+```
 
+---
 
+# 📥 Download ML Model Files
 
-## Step 5: Create GitHub Repository
-Go to:
+Due to GitHub file size limitations, trained `.pkl` files are hosted on Google Drive.
 
-:contentReference[oaicite:1]{index=1}
+## Google Drive Link
 
-Suggested repo names:
-- `AI-Disaster-Prediction`
-- `Disaster-Prediction-System`
-- `AI-Disaster-Management`
+https://drive.google.com/drive/folders/1QXemqLhuuYijR8Gj30goe3X6YSMKcFBK
 
-## Step 6: Push Code
-Replace `https://github.com/suryaveersingh18/ai-disaster` with your GitHub repo URL.
+Download these files:
+
+- flood_model.pkl
+- earthquake_model.pkl
+- hurricane_model.pkl
+
+After downloading, place them inside the project root directory.
+
+---
+
+# ▶️ Run the Project
 
 ```bash
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin your-repo-link
-git push -u origin main
+python app.py
+```
+
+---
+
+# 🌐 Deployment
+
+This project can be deployed on:
+
+- Render
+- Railway
+- Streamlit Cloud
+
+---
+
+# 📸 Screenshots
+
+Add your project screenshots here.
+
+Example:
+
+```md
+![Screenshot](image.png)
+```
+
+---
+
+# 🔮 Future Improvements
+
+- Real-time Disaster Alerts
+- Live Weather API Integration
+- Satellite Image Analysis
+- Cloud-Based Prediction System
+- Advanced Deep Learning Models
+
+---
+
+# 👨‍💻 Contributors
+
+- Suryaveer Singh
+- Team Members
+
+---
+
+# 📄 License
+
+This project is developed for educational and learning purposes.
+
+---
+
+# ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub.
